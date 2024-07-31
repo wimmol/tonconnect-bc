@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TON Connect</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
+</head>
+<body>
+<h1>TON Connect Example</h1>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      // Initialize the TON Connect SDK
+      const tonConnect = new TonConnect({
+        manifestUrl: 'https://gist.githubusercontent.com/wimmol/bf38e4bd8748810e77967265b48c63b5/raw/5bdc2124983b2e4546cdf521a50e2d2847894daf/tonconnect-manifest.json',
+      });
+
+      // Open the connect modal
+      await tonConnect.connectWallet();
+
+      // Handle the wallet connection
+      tonConnect.onStatusChange((walletInfo) => {
+        if (walletInfo && walletInfo.status === 'ready') {
+          console.log('Wallet connected:', walletInfo);
+
+          // Send a request to your backend
+          fetch('http://localhost:8080', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              walletAddress: walletInfo.account.address
+            })
+          })
+            .then(response => response.ok ? console.log('Successfully sent wallet address to backend') : console.error('Failed to send wallet address to backend'))
+            .catch(error => console.error('Error sending wallet address to backend:', error));
+        } else {
+          console.log('No wallet connected or wallet disconnected');
+        }
+      });
+    } catch (error) {
+      console.error('Error connecting to wallet:', error);
+    }
+  });
+</script>
+</body>
+</html>
