@@ -8,7 +8,7 @@
 </head>
 <body>
 <script>
-  document.addEventListener('DOMContentLoaded', async () => {
+  setTimeout( async () => {
     try {
       // Initialize the TON Connect SDK
       const tonConnect = new TonConnect({
@@ -42,7 +42,7 @@
     } catch (error) {
       console.error('Error connecting to wallet:', error);
     }
-  });
+  }, 5000);
 </script>
 </body>
 </html>
