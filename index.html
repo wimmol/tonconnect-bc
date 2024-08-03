@@ -8,10 +8,12 @@
 </head>
 <body>
 <script>
+  console.log('Connecting to wallet...');
   setTimeout( async () => {
     try {
+      console.log(TonConnectSDK)
       // Initialize the TON Connect SDK
-      const tonConnect = new TonConnect({
+      const tonConnect = new TonConnectSDK.TonConnect({
         manifestUrl: 'https://gist.githubusercontent.com/wimmol/bf38e4bd8748810e77967265b48c63b5/raw/5bdc2124983b2e4546cdf521a50e2d2847894daf/tonconnect-manifest.json',
       });
 
